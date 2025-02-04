@@ -56,6 +56,49 @@ if (isset($_POST['delete'])) {
     }
     header('Location: dashboard.php');
     exit();
-    }
+}
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+        $postId = $_POST["post_id"];
+        $postTitle = $_POST["post_title"];
+        $content = $_POST["content"];
+        $categoryId = $_POST["category_id"];
+        $imageDir = "assets/img/uploads/";
+
+        if (!empty($_FILES["image_path"]["name"])){
+            $imageName = $_FILES["image_path"]["name"];
+            $imagePath = $imageDir . $imageName;
+
+            move_uploaded_file($_FILES["image_path"]["tmp_name"], $imagePath);
+
+            $queryOldImage = "SELECT image_path FROM posts WHERE id_post = $postId";
+            $resultOldImage = $conn->query($queryOldImage);
+            if ($resultOldImage->num_rows > 0) {
+                $oldImage = $resultOldImage->fetch_assoc()['image_path'];
+                if(file_exists($oldImage)) {
+                    unlink($oldImage);
+                }
+            }
+        } else {
+            $imagePathQuery = "SELECT image_path FROM posts WHERE id_post = $postId";
+            $result = $conn->query($imagePathQuery);
+            $imagePath = ($result-> num_rows > 0) ?  $result->fetch_assoc() ['image_path'] : null;
+        }
+
+        $queryUpdate = "UPDATE posts SET post_title = '$postTitle', content = '$content', category_id = $categoryId, image_path = '$imagePath' WHERE id_post = $postId";
+        if ($conn->query($queryUpdate) === TRUE) {
+            $_SESSION['notification'] = [
+                'type' => 'primary',
+                'message' => 'Postingan berhasil diperbarui.'
+            ];
+        } else {
+            $_SESSION['notification'] = [
+                'type' => 'danger',
+                'message' => 'Gagal memperbarui postingann.'
+            ];
+        }
+        header('Location: dashboard.php');
+        exit();
+}
 
 ?>
