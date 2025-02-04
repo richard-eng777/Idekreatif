@@ -12,7 +12,7 @@ include '.includes/header.php'
                         <!-- Input untuk judul postingan -->
                          <div class="mb-3">
                             <label for="post_title" class="form-label">Judul Postingan</label>
-                            <input type="text" class="form-control" name="post-title" required>
+                            <input type="text" class="form-control" name="post_title" required>
                          </div>
                          <!-- Input untuk mengunggah gambar -->
                           <div class="mb-3">
@@ -21,7 +21,7 @@ include '.includes/header.php'
                           </div>
                           <!-- Dropdown untuk memilih kategori -->
                            <div class="mb-3">
-                            <label for="categori_id" class="form-label">Kategori</label>
+                            <label for="category_id" class="form-label">Kategori</label>
                             <select class="form-select" name="category_id" required>
                                 <!-- Mengambil data kategori dari database untuk mengisi opsi dropdown -->
                                  <option value="" selected disabled>Pilih salah satu</option>
@@ -30,7 +30,7 @@ include '.includes/header.php'
                                  $result = $conn->query($query); // Menjalankan query
                                  if($result->num_rows > 0) { // Jika terdapat data kategori
                                     while ($row = $result->fetch_assoc()) { // Iterasi setiap kategori
-                                        echo "<option value='" . $row["categori_id"] . "'>" . $row["category_name"] . "</option>";
+                                        echo "<option value='" . $row["category_id"] . "'>" . $row["category_name"] . "</option>";
                                     }
                                  }
                                  ?>
@@ -41,7 +41,7 @@ include '.includes/header.php'
                                 <label for="content" class="form-label">Konten</label>
                                 <textarea class="form-control" id="content" name="content" reqiured></textarea>
                             </div>
-                            <button type="submit" name="simpan" class="btn btn primary">Simpan</button>
+                            <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
                     </form> 
                 </div>
             </div>
