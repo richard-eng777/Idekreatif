@@ -46,7 +46,7 @@ if (isset($_POST['delete'])) {
     if($exec) {
         $_SESSION['notification'] = [
             'type' => 'primary',
-            'message' => 'Post succesfully deleted: '
+            'message' => 'Post succesfully deleted '
         ];
     } else {
         $_SESSION['notification'] = [
